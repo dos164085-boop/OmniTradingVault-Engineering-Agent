@@ -1,0 +1,32 @@
+[profile.default]
+src = "contracts"
+out = "out"
+libs = ["lib"]
+test = "test"
+script = "script"
+
+solc_version = "0.8.26"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+
+gas_reports = ["*"]
+gas_reports_ignore = ["test/*", "mocks/*"]
+verbosity = 3
+
+ffi = true
+block_timestamp = 1
+block_base_fee = 1
+block_gas_limit = 30000000
+
+coverage_report = ["html", "json", "lcov"]
+coverage_run_all = true
+coverage_ignore = ["test/*", "mocks/*"]
+
+[profile.ci]
+verbosity = 2
+ffi = false
+
+[profile.production]
+optimizer_runs = 1000
+via_ir = false
