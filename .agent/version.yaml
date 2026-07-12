@@ -1,0 +1,19 @@
+agent_version: "3.0.0"
+release_date: "2026-07-12"
+status: "BETA"
+trust_level: 2
+
+capabilities:
+  - analysis
+  - planning
+  - implementation
+  - validation
+  - learning
+
+metrics_thresholds:
+  build_success_rate: 0.95
+  test_pass_rate: 0.99
+  review_approval_rate: 0.90
+  incident_rate: 0.01
+  learning_rate: 0.80
+  code_coverage: 0.90
