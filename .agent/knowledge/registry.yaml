@@ -1,0 +1,31 @@
+version: "1.0"
+
+knowledge_base:
+  root: ".agent/knowledge"
+
+projects:
+  - id: omnitradingvault
+    name: OmniTradingVault
+    path: projects/OmniTradingVault
+    status: active
+
+  - id: engineering-agent
+    name: OmniTradingVault Engineering Agent
+    path: projects/OmniTradingVault-Engineering-Agent
+    status: active
+
+domains:
+  - protocol
+  - engineering
+  - environment
+  - automation
+
+indexes:
+  protocol: protocol/
+  engineering: engineering/
+  environment: environment/
+  automation: automation/
+  projects: projects/
+
+last_updated: "2026-07-12" 
+

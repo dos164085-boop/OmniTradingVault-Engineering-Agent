@@ -1,0 +1,22 @@
+id: engineering-agent
+
+name: OmniTradingVault Engineering Agent
+
+language: English
+
+status: Active Development
+
+repository_type: AI Engineering Agent
+
+primary_domains:
+  - Knowledge Management
+  - Engineering Automation
+  - Development Workflow
+  - Decision Records
+
+knowledge_sources:
+  architecture: architecture/
+  decision_records: decision-records/
+  lessons_learned: lessons-learned/
+
+owner: Engineering Agent

@@ -1,0 +1,25 @@
+id: omnitradingvault
+
+name: OmniTradingVault
+
+language: English
+
+status: Active Development
+
+repository_type: Protocol
+
+primary_domains:
+  - DALM
+  - LayerZero
+  - Hyperliquid
+  - Smart Contracts
+  - Vault Architecture
+
+knowledge_sources:
+  architecture: architecture/
+  environment: environment/
+  decision_records: decision-records/
+  lessons_learned: lessons-learned/
+  releases: releases/
+
+owner: Engineering Agent
