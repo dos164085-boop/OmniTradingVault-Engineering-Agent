@@ -2,10 +2,12 @@
   "name": "omnivault-engineering-agent",
   "version": "3.0.0",
   "description": "Engineering Agent for OmniTradingVault Protocol",
+  "private": true,
   "scripts": {
+    "install": "python -m pip install -r requirements.txt",
     "setup": "./scripts/setup-dev.sh",
     "validate": "./scripts/validate-principles.sh",
-    "test": "forge test -vv",
+    "test": "python -m pytest tests -vv",
     "agent": "python scripts/agent-cli.py"
   }
 }
