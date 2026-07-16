@@ -1,34 +1,129 @@
+"""
+Working Memory.
+
+Stores the transient engineering state of the Runtime.
+
+WorkingMemory represents the active context of an engineering
+session. It is completely in-memory and is discarded when the
+Runtime finishes.
+
+Nothing stored here becomes persistent knowledge.
+"""
+
+from __future__ import annotations
+
+from src.runtime.models import (
+    Decision,
+    Event,
+    Evidence,
+    KnowledgeCandidate,
+)
+
+
 class WorkingMemory:
+    """
+    In-memory Runtime state.
 
-    def __init__(self):
+    The WorkingMemory owns no business logic.
 
+    Its responsibility is to maintain the temporary engineering
+    artifacts produced during a Runtime session.
+    """
+
+    def __init__(self) -> None:
         self.clear()
 
-    def set(self, key, value):
+    def add_event(
+        self,
+        event: Event,
+    ) -> None:
+        """
+        Store a Runtime Event.
+        """
 
-        self._memory[key] = value
+        self.events.append(event)
 
-    def get(self, key, default=None):
+    def add_evidence(
+        self,
+        evidence: Evidence,
+    ) -> None:
+        """
+        Store Evidence.
+        """
 
-        return self._memory.get(key, default)
+        self.evidence.append(evidence)
 
-    def remove(self, key):
+    def add_decision(
+        self,
+        decision: Decision,
+    ) -> None:
+        """
+        Store a Decision.
+        """
 
-        self._memory.pop(key, None)
+        self.decisions.append(decision)
 
-    def clear(self):
+    def add_candidate(
+        self,
+        candidate: KnowledgeCandidate,
+    ) -> None:
+        """
+        Store a KnowledgeCandidate.
+        """
 
-        self._memory = {}
+        self.candidates.append(candidate)
 
-    def update(self, values):
+    def clear(self) -> None:
+        """
+        Reset Runtime state.
+        """
 
-        self._memory.update(values)
+        self.events: list[Event] = []
 
-    def snapshot(self):
+        self.evidence: list[Evidence] = []
 
-        return dict(self._memory)
+        self.decisions: list[Decision] = []
 
-    def size(self):
+        self.candidates: list[
+            KnowledgeCandidate
+        ] = []
 
-        return len(self._memory)
-    
+    @property
+    def event_count(
+        self,
+    ) -> int:
+        """
+        Return the number of Events.
+        """
+
+        return len(self.events)
+
+    @property
+    def evidence_count(
+        self,
+    ) -> int:
+        """
+        Return the number of Evidence items.
+        """
+
+        return len(self.evidence)
+
+    @property
+    def decision_count(
+        self,
+    ) -> int:
+        """
+        Return the number of Decisions.
+        """
+
+        return len(self.decisions)
+
+    @property
+    def candidate_count(
+        self,
+    ) -> int:
+        """
+        Return the number of KnowledgeCandidates.
+        """
+
+        return len(self.candidates)
