@@ -10,7 +10,10 @@ persists knowledge directly.
 from .decision import Decision, DecisionStatus
 from .event import Event, EventType
 from .evidence import Evidence, EvidenceType
-from .knowledge_candidate import KnowledgeCandidate
+from .knowledge_candidate import (
+    CandidateStatus,
+    KnowledgeCandidate,
+)
 from .session import Session, SessionStatus
 
 __all__ = [
@@ -21,6 +24,7 @@ __all__ = [
     "Evidence",
     "EvidenceType",
     "KnowledgeCandidate",
+    "CandidateStatus",
     "Session",
     "SessionStatus",
 ]
