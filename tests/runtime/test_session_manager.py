@@ -8,7 +8,6 @@ import pytest
 
 from src.runtime.managers.session_manager import SessionManager
 from src.runtime.models.session import Session
-from src.runtime.working_memory import WorkingMemory
 
 
 def create_manager() -> SessionManager:
@@ -16,9 +15,7 @@ def create_manager() -> SessionManager:
     Build a SessionManager for testing.
     """
 
-    return SessionManager(
-        working_memory=WorkingMemory()
-    )
+    return SessionManager()
 
 
 def test_create_session() -> None:
@@ -152,4 +149,3 @@ def test_clear_manager() -> None:
     assert manager.session_count() == 0
 
     assert manager.get_active_session() is None
-    

@@ -4,8 +4,8 @@ Session Manager.
 Coordinates the lifecycle of engineering sessions during Runtime
 execution.
 
-The SessionManager owns runtime sessions and synchronizes the active
-session with WorkingMemory.
+The SessionManager owns runtime sessions and tracks the currently
+active engineering session.
 
 This component never communicates directly with the Knowledge Core.
 """
@@ -15,7 +15,6 @@ from __future__ import annotations
 from uuid import UUID
 
 from src.runtime.models.session import Session
-from src.runtime.working_memory import WorkingMemory
 
 
 class SessionManager:
@@ -23,14 +22,16 @@ class SessionManager:
     Coordinates engineering sessions.
     """
 
-    ACTIVE_SESSION_KEY = "runtime.active_session"
-
     def __init__(
         self,
-        working_memory: WorkingMemory,
     ) -> None:
-        self._working_memory = working_memory
-        self._sessions: dict[UUID, Session] = {}
+
+        self._sessions: dict[
+            UUID,
+            Session,
+        ] = {}
+
+        self._active_session_id: UUID | None = None
 
     def create_session(
         self,
@@ -45,14 +46,15 @@ class SessionManager:
                 "An active engineering session already exists."
             )
 
-        session = Session(title=title)
-
-        self._sessions[session.id] = session
-
-        self._working_memory.set(
-            self.ACTIVE_SESSION_KEY,
-            session.id,
+        session = Session(
+            title=title,
         )
+
+        self._sessions[
+            session.id
+        ] = session
+
+        self._active_session_id = session.id
 
         return session
 
@@ -69,23 +71,27 @@ class SessionManager:
                 f"Unknown session '{session_id}'."
             )
 
-        return self._sessions[session_id]
+        return self._sessions[
+            session_id
+        ]
 
-    def get_active_session(self) -> Session | None:
+    def get_active_session(
+        self,
+    ) -> Session | None:
         """
-        Return the current active session.
+        Return the active engineering session.
         """
 
-        session_id = self._working_memory.get(
-            self.ACTIVE_SESSION_KEY
-        )
-
-        if session_id is None:
+        if self._active_session_id is None:
             return None
 
-        return self._sessions.get(session_id)
+        return self._sessions.get(
+            self._active_session_id
+        )
 
-    def has_active_session(self) -> bool:
+    def has_active_session(
+        self,
+    ) -> bool:
         """
         Return True if an active session exists.
         """
@@ -102,21 +108,20 @@ class SessionManager:
         session_id: UUID,
     ) -> Session:
         """
-        Close a session.
+        Close an engineering session.
         """
 
-        session = self.get_session(session_id)
+        session = self.get_session(
+            session_id
+        )
 
         session.close()
 
-        active = self._working_memory.get(
-            self.ACTIVE_SESSION_KEY
-        )
-
-        if active == session.id:
-            self._working_memory.remove(
-                self.ACTIVE_SESSION_KEY
-            )
+        if (
+            self._active_session_id
+            == session.id
+        ):
+            self._active_session_id = None
 
         return session
 
@@ -129,34 +134,46 @@ class SessionManager:
         Associate a decision with a session.
         """
 
-        session = self.get_session(session_id)
+        session = self.get_session(
+            session_id
+        )
 
-        session.add_decision(decision_id)
+        session.add_decision(
+            decision_id
+        )
 
-    def list_sessions(self) -> list[Session]:
+    def list_sessions(
+        self,
+    ) -> list[Session]:
         """
-        Return all sessions.
+        Return every managed session.
         """
 
-        return list(self._sessions.values())
+        return list(
+            self._sessions.values()
+        )
 
-    def session_count(self) -> int:
+    def session_count(
+        self,
+    ) -> int:
         """
         Return the number of managed sessions.
         """
 
-        return len(self._sessions)
+        return len(
+            self._sessions
+        )
 
-    def clear(self) -> None:
+    def clear(
+        self,
+    ) -> None:
         """
-        Clear manager state.
+        Reset manager state.
 
         Intended only for testing.
         """
 
         self._sessions.clear()
 
-        self._working_memory.remove(
-            self.ACTIVE_SESSION_KEY
-        )
+        self._active_session_id = None
         
